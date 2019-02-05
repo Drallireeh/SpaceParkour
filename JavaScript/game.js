@@ -3,6 +3,7 @@ x_wing_parkour.game = {
         width: 500,
         height: 2500
     },
+    is_moving: false,
     init: function (config) {
         config = config || {};
 
@@ -17,8 +18,10 @@ x_wing_parkour.game = {
                     .setPath('Assets/Obj/')
                     .load('xwing.obj', function (object) {
                         object.scale.set(0.01, 0.01, 0.01);
+                        object.translateX((-innerWidth / 2) + 50);
+                        object.translateY((-innerHeight / 2) + 150);
                         object.rotateY(THREE.Math.degToRad(-90));
-                        object.rotateZ(THREE.Math.degToRad(-90));
+                        x_wing_parkour.game.x_wing = object;
                         x_wing_parkour.gfx_engine.scene.add(object);
                     });
             });
@@ -30,8 +33,14 @@ x_wing_parkour.game = {
         plane_mesh.position.set(0, 0, -50);
         gfx.scene.add(plane_mesh);
 
+        document.addEventListener('keydown', this.onKeyDown, false);
+        document.addEventListener('keyup', this.onKeyUp, false);
     },
     update: function () {
+        if (this.x_wing != null) {
+            if (this.is_moving && (this.x_wing.position.y + 50) < (innerHeight/2) - 100) x_wing_parkour.game.x_wing.translateY(5);
+            else if ((this.x_wing.position.y - 50) > (-innerHeight / 2) + 100) x_wing_parkour.game.x_wing.translateY(-5);
+        }
     },
     addBackground: function () {
         new THREE.ImageLoader().load('Assets/Textures/Stars_in_the_sky.jpg', function (image) {
@@ -43,4 +52,20 @@ x_wing_parkour.game = {
             x_wing_parkour.gfx_engine.scene.add(plate);
         });
     },
+    onKeyDown: function (event) {
+        switch (event.keyCode) {
+            case 38: // up
+            case 90: // z
+                x_wing_parkour.game.is_moving = true;
+            break;
+        }
+    },
+    onKeyUp: function (event) {
+        switch (event.keyCode) {
+            case 38: // up
+            case 90: // w
+                x_wing_parkour.game.is_moving = false;
+                break;
+        }
+    }
 };

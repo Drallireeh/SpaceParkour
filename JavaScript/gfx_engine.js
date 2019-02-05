@@ -11,9 +11,13 @@ x_wing_parkour.gfx_engine = {
         this.camera.position.set(0, 0, 30);
         this.scene.add(this.camera);
 
-        const light = new THREE.PointLight(0xffffff);
-        light.position.set(0, 0, 50);
+        const light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(100, 0, 75);
         this.scene.add(light);
+
+        const light2 = new THREE.DirectionalLight(0xffffff);
+        light2.position.set(-100, 0, 75);
+        this.scene.add(light2);
 
         const high_performance = x_wing_parkour.configuration.high_performance || true;
 

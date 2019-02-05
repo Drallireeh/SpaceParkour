@@ -10,14 +10,19 @@ x_wing_parkour = {
         this.configuration = config;
         this.gfx_engine.init(config.gfx_engine);
         this.game.init(config.game);
-        
+
         this.update();
 
         console.log("x Wing Parkour is started !");
     },
-    update: function() {
+    update: function () {
         requestAnimFrame(x_wing_parkour.update);
 
+        if (x_wing_parkour.configuration.debug_mode) x_wing_parkour.gfx_engine.stats.begin();
+
         x_wing_parkour.gfx_engine.update();
+        x_wing_parkour.game.update();
+
+        if (x_wing_parkour.configuration.debug_mode) x_wing_parkour.gfx_engine.stats.end();
     }
 };
