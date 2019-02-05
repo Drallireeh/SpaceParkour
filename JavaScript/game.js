@@ -21,7 +21,7 @@ x_wing_parkour.game = {
                         object.translateX((-innerWidth / 2) + 50);
                         object.translateY((-innerHeight / 2) + 150);
                         object.rotateY(THREE.Math.degToRad(-90));
-                        x_wing_parkour.game.x_wing = object;
+                        x_wing_parkour.game.player = object;
                         x_wing_parkour.gfx_engine.scene.add(object);
                     });
             });
@@ -37,9 +37,9 @@ x_wing_parkour.game = {
         document.addEventListener('keyup', this.onKeyUp, false);
     },
     update: function () {
-        if (this.x_wing != null) {
-            if (this.is_moving && (this.x_wing.position.y + 50) < (innerHeight/2) - 100) x_wing_parkour.game.x_wing.translateY(5);
-            else if ((this.x_wing.position.y - 50) > (-innerHeight / 2) + 100) x_wing_parkour.game.x_wing.translateY(-5);
+        if (this.player != null) {
+            if (this.is_moving && this.player.position.y + 50 < (innerHeight/2) - 100) x_wing_parkour.game.player.translateY(5);
+            else if ((this.player.position.y - 50) > (-innerHeight / 2) + 100) x_wing_parkour.game.player.translateY(-5);
         }
     },
     addBackground: function () {
