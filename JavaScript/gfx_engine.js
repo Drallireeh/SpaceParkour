@@ -8,8 +8,12 @@ x_wing_parkour.gfx_engine = {
 
         // --- Camera
         this.camera = new THREE.OrthographicCamera(innerWidth / -2, innerWidth / 2, innerHeight / 2, innerHeight / -2, 1, 5000);
-        this.camera.position.set(0, 0, 50);
+        this.camera.position.set(0, 0, 30);
         this.scene.add(this.camera);
+
+        const light = new THREE.PointLight(0xffffff);
+        light.position.set(0, 0, 50);
+        this.scene.add(light);
 
         const high_performance = x_wing_parkour.configuration.high_performance || true;
 
@@ -40,7 +44,6 @@ x_wing_parkour.gfx_engine = {
         })(),
 
             console.log("gfx engine is ready");
-            
     },
     update: function () {
 
