@@ -2,13 +2,14 @@ x_wing_parkour = {
     configuration: {},
 
     start: function (config) {
-        // debug mode
+        // --- Debug Mode
         if (config.debug_mode == false) {
             console.log = function () { };
         }
 
         this.configuration = config;
         this.gfx_engine.init(config.gfx_engine);
+        this.game.init(config.game);
         
         this.update();
 
