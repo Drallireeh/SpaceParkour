@@ -4,6 +4,11 @@ x_wing_parkour.game = {
         height: 2500
     },
     is_moving: false,
+    obstacles: {
+        cube: null,
+        pick: null,
+        asteroid: null
+    },
     init: function (config) {
         config = config || {};
 
@@ -38,8 +43,16 @@ x_wing_parkour.game = {
     },
     update: function () {
         if (this.player != null) {
-            if (this.is_moving && this.player.position.y + 50 < (innerHeight/2) - 100) x_wing_parkour.game.player.translateY(5);
-            else if ((this.player.position.y - 50) > (-innerHeight / 2) + 100) x_wing_parkour.game.player.translateY(-5);
+            if (this.is_moving) {
+                if (this.player.position.y + 50 < (innerHeight / 2) - 100) {
+                    x_wing_parkour.game.player.translateY(5);
+                }
+            }
+            else {
+                if ((this.player.position.y - 50) > (-innerHeight / 2) + 100) {
+                    x_wing_parkour.game.player.translateY(-5);
+                }
+            }
         }
     },
     addBackground: function () {
@@ -57,7 +70,7 @@ x_wing_parkour.game = {
             case 38: // up
             case 90: // z
                 x_wing_parkour.game.is_moving = true;
-            break;
+                break;
         }
     },
     onKeyUp: function (event) {
@@ -67,5 +80,8 @@ x_wing_parkour.game = {
                 x_wing_parkour.game.is_moving = false;
                 break;
         }
-    }
+    },
+    addObstacle: function (geometry) {
+
+    },
 };
