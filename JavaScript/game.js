@@ -3,11 +3,16 @@ x_wing_parkour.game = {
         width: 500,
         height: 2500
     },
-    is_moving: false,
+    player: null,
+    player_stats: {
+        is_moving: false,
+        speed: 5,
+        score: 0
+    },
     obstacles: {
-        cube: null,
-        pick: null,
-        asteroid: null
+        cube: new THREE.BoxGeometry(50, 50, 50),
+        pick: new THREE.ConeGeometry(25, 50),
+        asteroid: new THREE.CircleGeometry(50, 32)
     },
     init: function (config) {
         config = config || {};
@@ -25,25 +30,28 @@ x_wing_parkour.game = {
                         object.scale.set(0.01, 0.01, 0.01);
                         object.translateX((-innerWidth / 2) + 50);
                         object.translateY((-innerHeight / 2) + 150);
+                        object.translateZ(-30);
                         object.rotateY(THREE.Math.degToRad(-90));
                         x_wing_parkour.game.player = object;
-                        x_wing_parkour.gfx_engine.scene.add(object);
+                        x_wing_parkour.gfx_engine.camera.add(object);
                     });
             });
 
         this.addBackground();
+        this.addObstacle("cube");
+        this.addObstacle("pick");
 
         // Rectangle de jeu
         const plane_mesh = new THREE.Mesh(new THREE.PlaneGeometry(innerWidth, innerHeight - 200), new THREE.MeshBasicMaterial({ color: 0x808080 }));
-        plane_mesh.position.set(0, 0, -50);
-        gfx.scene.add(plane_mesh);
+        plane_mesh.position.set(0, 0, -200);
+        gfx.camera.add(plane_mesh);
 
         document.addEventListener('keydown', this.onKeyDown, false);
         document.addEventListener('keyup', this.onKeyUp, false);
     },
     update: function () {
         if (this.player != null) {
-            if (this.is_moving) {
+            if (this.player_stats.is_moving) {
                 if (this.player.position.y + 50 < (innerHeight / 2) - 100) {
                     x_wing_parkour.game.player.translateY(5);
                 }
@@ -54,6 +62,10 @@ x_wing_parkour.game = {
                 }
             }
         }
+
+        const camera = x_wing_parkour.gfx_engine.camera;
+        camera.translateX(this.player_stats.speed);
+        // let cam_z = camera.position.z;
     },
     addBackground: function () {
         new THREE.ImageLoader().load('Assets/Textures/Stars_in_the_sky.jpg', function (image) {
@@ -61,15 +73,15 @@ x_wing_parkour.game = {
             let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texture });
             let geometry = new THREE.PlaneGeometry(innerWidth, innerHeight);
             let plate = new THREE.Mesh(geometry, material);
-            plate.translateZ(-500);
-            x_wing_parkour.gfx_engine.scene.add(plate);
+            plate.translateZ(-600);
+            x_wing_parkour.gfx_engine.camera.add(plate);
         });
     },
     onKeyDown: function (event) {
         switch (event.keyCode) {
             case 38: // up
             case 90: // z
-                x_wing_parkour.game.is_moving = true;
+                x_wing_parkour.game.player_stats.is_moving = true;
                 break;
         }
     },
@@ -77,11 +89,34 @@ x_wing_parkour.game = {
         switch (event.keyCode) {
             case 38: // up
             case 90: // w
-                x_wing_parkour.game.is_moving = false;
+                x_wing_parkour.game.player_stats.is_moving = false;
                 break;
         }
     },
     addObstacle: function (geometry) {
+        let mesh = null;
+        switch (geometry) {
+            case 'cube':
+                mesh = new THREE.Mesh(this.obstacles.cube, new THREE.MeshBasicMaterial({ color: 0xffffff }));
+                break;
+            case 'pick':
+                mesh = new THREE.Mesh(this.obstacles.pick, new THREE.MeshBasicMaterial({ color: 0xffffff }));
+                break;
+            case 'asteroid':
+                mesh = new THREE.Mesh(this.obstacles.asteroid, new THREE.MeshBasicMaterial({ color: 0xffffff }));
+                break;
+            default:
+                console.log("Wrong type of obstacle");
+        }
+        if (mesh != null) {
+            mesh.position.set(50, 0, 0);
+            x_wing_parkour.gfx_engine.scene.add(mesh);
+        }
+    },
+    addCube: function () {
 
     },
+    addPick: function () {
+
+    }
 };
