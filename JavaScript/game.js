@@ -6,7 +6,7 @@ x_wing_parkour.game = {
     player: null,
     player_stats: {
         is_moving: false,
-        speed: 5,
+        speed: 1,
         score: 0
     },
     obstacles: {
@@ -14,6 +14,7 @@ x_wing_parkour.game = {
         pick: new THREE.ConeGeometry(25, 50),
         asteroid: new THREE.CircleGeometry(50, 32)
     },
+    list_obstacles: [],
     init: function (config) {
         config = config || {};
 
@@ -68,14 +69,15 @@ x_wing_parkour.game = {
         // let cam_z = camera.position.z;
     },
     addBackground: function () {
-        new THREE.ImageLoader().load('Assets/Textures/Stars_in_the_sky.jpg', function (image) {
-            let texture = new THREE.CanvasTexture(image);
+        // new THREE.ImageLoader().load('Assets/Textures/Stars_in_the_sky.jpg', function (image) {
+        //     let texture = new THREE.CanvasTexture(image);
+        let texture = new THREE.TextureLoader().load('Assets/Textures/Stars_in_the_sky.jpg');
             let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texture });
             let geometry = new THREE.PlaneGeometry(innerWidth, innerHeight);
             let plate = new THREE.Mesh(geometry, material);
             plate.translateZ(-600);
             x_wing_parkour.gfx_engine.camera.add(plate);
-        });
+        // });
     },
     onKeyDown: function (event) {
         switch (event.keyCode) {
@@ -109,8 +111,11 @@ x_wing_parkour.game = {
                 console.log("Wrong type of obstacle");
         }
         if (mesh != null) {
-            mesh.position.set(50, 0, 0);
+            mesh.position.set(Math.floor(Math.random() * ((innerWidth / 2 - 50) - (-innerWidth / 2 + 300 + 1))) + (-innerWidth / 2 + 300),
+                Math.floor(Math.random() * ((innerHeight / 2 - 150) - (-innerHeight / 2 + 150 + 1))) + (-innerHeight / 2 + 150),
+                -60);
             x_wing_parkour.gfx_engine.scene.add(mesh);
+            this.list_obstacles.push(mesh);
         }
     },
     addCube: function () {
