@@ -11,7 +11,7 @@ x_wing_parkour.game = {
     },
     obstacles: {
         cube: new THREE.BoxGeometry(50, 50, 50),
-        pick: new THREE.ConeGeometry(25, 50),
+        spike: new THREE.ConeGeometry(25, 50),
         asteroid: new THREE.CircleGeometry(50, 32)
     },
     list_obstacles: [],
@@ -40,7 +40,7 @@ x_wing_parkour.game = {
 
         this.addBackground();
         this.addObstacle("cube");
-        this.addObstacle("pick");
+        this.addObstacle("asteroid");
 
         // Rectangle de jeu
         const plane_mesh = new THREE.Mesh(new THREE.PlaneGeometry(innerWidth, innerHeight - 200), new THREE.MeshBasicMaterial({ color: 0x808080 }));
@@ -69,15 +69,11 @@ x_wing_parkour.game = {
         // let cam_z = camera.position.z;
     },
     addBackground: function () {
-        // new THREE.ImageLoader().load('Assets/Textures/Stars_in_the_sky.jpg', function (image) {
-        //     let texture = new THREE.CanvasTexture(image);
-        let texture = new THREE.TextureLoader().load('Assets/Textures/Stars_in_the_sky.jpg');
-            let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texture });
-            let geometry = new THREE.PlaneGeometry(innerWidth, innerHeight);
-            let plate = new THREE.Mesh(geometry, material);
-            plate.translateZ(-600);
-            x_wing_parkour.gfx_engine.camera.add(plate);
-        // });
+        let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("background") });
+        let geometry = new THREE.PlaneGeometry(innerWidth, innerHeight);
+        let plate = new THREE.Mesh(geometry, material);
+        plate.translateZ(-600);
+        x_wing_parkour.gfx_engine.camera.add(plate);
     },
     onKeyDown: function (event) {
         switch (event.keyCode) {
@@ -99,13 +95,13 @@ x_wing_parkour.game = {
         let mesh = null;
         switch (geometry) {
             case 'cube':
-                mesh = new THREE.Mesh(this.obstacles.cube, new THREE.MeshBasicMaterial({ color: 0xffffff }));
+                mesh = new THREE.Mesh(this.obstacles.cube, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("box")}));
                 break;
-            case 'pick':
-                mesh = new THREE.Mesh(this.obstacles.pick, new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            case 'spike':
+                mesh = new THREE.Mesh(this.obstacles.spike, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("spike")}));
                 break;
             case 'asteroid':
-                mesh = new THREE.Mesh(this.obstacles.asteroid, new THREE.MeshBasicMaterial({ color: 0xffffff }));
+                mesh = new THREE.Mesh(this.obstacles.asteroid, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("asteroid")}));
                 break;
             default:
                 console.log("Wrong type of obstacle");

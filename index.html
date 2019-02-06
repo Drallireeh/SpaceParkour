@@ -12,6 +12,18 @@
             padding: 0;
             overflow: hidden;
         }
+        #score{
+            position: absolute;
+            left:100px;
+            top: 10px;
+            width: 200px;
+            height: 30px;
+            color: white;
+            background-color: black;
+            font-size: 18px;
+            text-align: center;
+            padding-top: 30px;
+        }
     </style>
 </head>
 
@@ -23,11 +35,32 @@
     <script src="JavaScript/x_wing_parkour.js"></script>
     <script src="JavaScript/gfx_engine.js"></script>
     <script src="JavaScript/game.js"></script>
+    <script src="JavaScript/loader.js"></script>
 
+    <div id="score">Player Score : 100</div>
     <script>
+        const score_div = document.getElementById("score");
+        score_div.innerText = x_wing_parkour.game.player_stats.score;
+
         x_wing_parkour.start({
             debug_mode: true,
-            high_performance: true
+            high_performance: true,
+            textures: [ {
+                path: 'Assets/Textures/Stars_in_the_sky.jpg',
+                name: "background"
+            }, 
+            {
+                path: 'Assets/Textures/wooden_box.jpg',
+                name: "box"
+            },
+            {
+                path: 'Assets/Textures/metal_texture.jpg',
+                name: "spike"
+            },
+            {
+                path: 'Assets/Textures/Asteroid.jpg',
+                name: "asteroid"
+            } ] 
         });
     </script>
 </body>

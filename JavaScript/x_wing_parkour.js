@@ -8,8 +8,9 @@ x_wing_parkour = {
         }
 
         this.configuration = config;
+        this.loader.init(config.textures);
         this.gfx_engine.init(config.gfx_engine);
-        this.game.init(config.game);
+        //this.game.init(config.game);
 
         this.update();
 
