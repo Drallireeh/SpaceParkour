@@ -24,6 +24,31 @@
             text-align: center;
             padding-top: 30px;
         }
+        #blocker {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        #instructions {
+            width: 100%;
+            height: 100%;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            box-pack: center;
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            box-align: center;
+            color: #ffffff;
+            text-align: center;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -38,7 +63,19 @@
     <script src="JavaScript/loader.js"></script>
 
     <div id="score"></div>
+
+    <div id="blocker">
+
+            <div id="instructions">
+                <span style="font-size:40px">Click to play</span>
+                <br />
+                (Z/ArrowUp = move, ESC = pause)
+            </div>
+    
+    </div>
+
     <script>
+        
         const score_div = document.getElementById("score");
         score_div.innerText = "Player score : " + x_wing_parkour.game.player_stats.score;
 

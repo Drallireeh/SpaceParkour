@@ -8,13 +8,23 @@ x_wing_parkour = {
         }
 
         this.configuration = config;
-        this.loader.init(config.textures);
-        this.gfx_engine.init(config.gfx_engine);
-        //this.game.init(config.game);
+
+        instructions.addEventListener('click', function () {
+            x_wing_parkour.onClick();
+        }, false);
+    },
+    startGame: function () {
+        this.loader.init(this.configuration.textures);
+        this.gfx_engine.init(this.configuration.gfx_engine);
 
         this.update();
 
         console.log("x Wing Parkour is started !");
+    },
+    onClick: function () {
+        instructions.style.display = 'none';
+        blocker.style.display = 'none';
+        x_wing_parkour.startGame();
     },
     update: function () {
         requestAnimFrame(x_wing_parkour.update);

@@ -52,10 +52,9 @@ x_wing_parkour.game = {
         this.addBackground();
         this.addScenery();
 
-        // Rectangle de jeu
-        const plane_mesh = new THREE.Mesh(new THREE.PlaneGeometry(innerWidth, innerHeight - 200), new THREE.MeshBasicMaterial({ color: 0x808080 }));
-        plane_mesh.position.set(0, 0, -200);
-        gfx.camera.add(plane_mesh);
+        const game_field = new THREE.Mesh(new THREE.PlaneGeometry(innerWidth, innerHeight - 200), new THREE.MeshBasicMaterial({ color: 0x808080 }));
+        game_field.position.set(0, 0, -200);
+        gfx.camera.add(game_field);
 
         this.player_stats.score_div = document.getElementById('score');
         document.addEventListener('keydown', this.onKeyDown, false);
