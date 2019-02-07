@@ -6,7 +6,7 @@ x_wing_parkour.game = {
     player: null,
     player_stats: {
         is_moving: false,
-        speed: 0.2,
+        speed: 2,
         score: 0,
         score_div: null,
         player_x: 0,
@@ -67,12 +67,11 @@ x_wing_parkour.game = {
                     x_wing_parkour.game.player.translateY(5);
                 }
             }
-            // else {
-            //     if ((this.player.position.y - 50) > (-innerHeight / 2) + 100) {
-            //         x_wing_parkour.game.player.translateY(-5);
-            //     }
-            // }
-
+            else {
+                if ((this.player.position.y - 50) > (-innerHeight / 2) + 100) {
+                    x_wing_parkour.game.player.translateY(-5);
+                }
+            }
 
             // Collisions & Score update
             this.player_stats.player_x = this.player.position.x;
@@ -87,9 +86,13 @@ x_wing_parkour.game = {
                         // Stop the game
                     }
 
-                    // if (this.list_obstacles[i].position.x)
+                    if (this.list_obstacles[i].position.x + 25 < this.player_stats.player_x - 50) {
+                        this.player_stats.score += 10;
+                        this.list_obstacles[i].position.x += 2000;
+                    }
                 }
             }
+
             this.player_stats.score_div.innerText = 'Player score : ' + this.player_stats.score;
         }
 
@@ -146,10 +149,4 @@ x_wing_parkour.game = {
             this.list_obstacles.push(mesh);
         }
     },
-    addCube: function () {
-
-    },
-    addPick: function () {
-
-    }
 };
