@@ -14,12 +14,12 @@
         }
         #score{
             position: absolute;
-            left:100px;
+            right:100px;
             top: 10px;
             width: 200px;
-            height: 30px;
-            color: white;
-            background-color: black;
+            height: 40px;
+            color: green;
+            background-color: grey;
             font-size: 18px;
             text-align: center;
             padding-top: 30px;
@@ -37,10 +37,10 @@
     <script src="JavaScript/game.js"></script>
     <script src="JavaScript/loader.js"></script>
 
-    <div id="score">Player Score : 100</div>
+    <div id="score"></div>
     <script>
         const score_div = document.getElementById("score");
-        score_div.innerText = x_wing_parkour.game.player_stats.score;
+        score_div.innerText = "Player score : " + x_wing_parkour.game.player_stats.score;
 
         x_wing_parkour.start({
             debug_mode: true,
