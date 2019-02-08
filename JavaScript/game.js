@@ -83,7 +83,7 @@ x_wing_parkour.game = {
                         
                     }
 
-                    if (this.list_obstacles[i].position.x + 25 < this.player_stats.player_x - 50) {
+                    if (this.list_obstacles[i].position.x + 25 < this.player_stats.player_x - 100) {
                         this.player_stats.score += 10;
                         this.list_obstacles[i].position.x += 2000;
                     }

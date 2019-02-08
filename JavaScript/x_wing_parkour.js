@@ -38,7 +38,6 @@ x_wing_parkour = {
         if (x_wing_parkour.configuration.debug_mode) x_wing_parkour.gfx_engine.stats.begin();
         
         if (x_wing_parkour.pause == false) {
-
             x_wing_parkour.gfx_engine.update();
             x_wing_parkour.game.update();
         }
