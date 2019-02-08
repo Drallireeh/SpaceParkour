@@ -26,7 +26,7 @@ x_wing_parkour.game = {
 
         const loader = new THREE.FBXLoader();
 
-        loader.load('Assets/Obj/xwing_fbx.fbx', function (object) {
+        loader.load('Assets/Obj/xwing_fbx2.fbx', function (object) {
             object.scale.set(0.01, 0.01, 0.01);
             object.translateX((-innerWidth / 2) + 50);
             object.translateY((-innerHeight / 2) + 150);
@@ -34,10 +34,10 @@ x_wing_parkour.game = {
             object.rotateY(THREE.Math.degToRad(-90));
     
             x_wing_parkour.game.player = object;
+            x_wing_parkour.game.player_stats.color = object.children[1].material.emissive.getHex();
             x_wing_parkour.game.player_stats.player_x = object.position.x;
             x_wing_parkour.game.player_stats.player_y = object.position.y;
             x_wing_parkour.gfx_engine.scene.add(object);
-
         })
 
         this.addScenery();
@@ -63,7 +63,7 @@ x_wing_parkour.game = {
             // Move
             if (this.player_stats.is_moving) {
                 if (this.player.position.y + 50 < (innerHeight / 2) - 100) {
-                    x_wing_parkour.game.player.translateY(5);
+                    x_wing_parkour.game.player.translateY(2);
                 }
             }
             else {
@@ -74,18 +74,29 @@ x_wing_parkour.game = {
 
             // Collisions & Score update
             if (this.list_obstacles.length > 0) {
-                for (let i = 0; i < this.list_obstacles.length; i++) { // A changer avec un numéro fixe, pour eviter de calculer la length à chaque fois
+                for (let i = 0; i < this.nb_obstacles; i++) {
                     if ((this.player_stats.player_x - 50 >= this.list_obstacles[i].position.x - 25 && this.player_stats.player_x - 50 <= this.list_obstacles[i].position.x + 25 &&
                         this.player_stats.player_y - 25 >= this.list_obstacles[i].position.y - 25 && this.player_stats.player_y - 25 <= this.list_obstacles[i].position.y + 25) ||
                         (this.player_stats.player_x + 75 >= this.list_obstacles[i].position.x - 25 && this.player_stats.player_x + 75 <= this.list_obstacles[i].position.x + 25 &&
                             this.player_stats.player_y + 25 >= this.list_obstacles[i].position.y - 25 && this.player_stats.player_y + 25 <= this.list_obstacles[i].position.y + 25)) {
                         // Stop the game
-                        
+                        if (this.list_obstacles[i].is_collide == false) {
+                            this.list_obstacles[i].is_collide = true;
+                            this.player_stats.lives -= 1;
+                            x_wing_parkour.setGameOver();
+                            if (this.player_stats.color == 0) {
+                                this.player.children[1].material.emissive.setHex(0xff0000);
+                                this.player_stats.color = this.player.children[1].material.emissive.getHex();
+                            }
+                                this.player.children[1].material.emissive.setHex(0);
+                                this.player_stats.color = this.player.children[1].material.emissive.getHex();
+                        }
                     }
 
                     if (this.list_obstacles[i].position.x + 25 < this.player_stats.player_x - 100) {
                         this.player_stats.score += 10;
                         this.list_obstacles[i].position.x += 2000;
+                        this.list_obstacles[i].is_collide = false;
                     }
                 }
             }
@@ -97,7 +108,7 @@ x_wing_parkour.game = {
         let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("background") });
         let geometry = new THREE.PlaneGeometry(innerWidth, innerHeight);
         let plate = new THREE.Mesh(geometry, material);
-        plate.translateZ(-600);
+        plate.translateZ(-400);
         x_wing_parkour.gfx_engine.camera.add(plate);
     },
     onKeyDown: function (event) {
@@ -115,7 +126,7 @@ x_wing_parkour.game = {
                 x_wing_parkour.game.player_stats.is_moving = false;
                 break;
             case 27:
-                x_wing_parkour.setPause();
+                if (!x_wing_parkour.game_over) x_wing_parkour.setPause();
                 break;
         }
     },
@@ -135,6 +146,7 @@ x_wing_parkour.game = {
                 console.log("Wrong type of obstacle");
         }
         if (mesh != null) {
+            mesh.is_collide = false;
             mesh.position.set(Math.floor(Math.random() * (1500 - (-innerWidth/2 + 300) + 1) ) + (-innerWidth/2 + 300),
                 Math.floor(Math.random() * ((innerHeight / 2 - 150) - (-innerHeight / 2 + 150 + 1))) + (-innerHeight / 2 + 150),
                 -60);

@@ -1,6 +1,7 @@
 x_wing_parkour = {
     configuration: {},
     pause: true,
+    game_over: false,
     start: function (config) {
         // --- Debug Mode
         if (config.debug_mode == false) {
@@ -30,6 +31,14 @@ x_wing_parkour = {
             
             this.blocker.style.display = 'block';
             this.instructions.style.display = '';
+        }
+    },
+    setGameOver: function () {
+        if (x_wing_parkour.game.player_stats.lives <= 0)
+        {
+            this.game_over = true;
+            this.pause = true;
+            this.blocker.style.display = 'block';
         }
     },
     update: function () {
