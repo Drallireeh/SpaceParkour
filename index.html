@@ -116,8 +116,20 @@
 
     <script>
         x_wing_parkour.start({
-            debug_mode: false,
+            debug_mode: true,
             high_performance: true,
+            gfx: {
+                far: 600,
+            },
+            game: {
+                nb_obstacles: 30,
+                type_obstacles: ["cube", "asteroid", "spike"],
+                camera_speed: 2,
+                player: {
+                    speed: 4,
+                    lives: 5,
+                }
+            },
             textures: [ {
                 path: 'Assets/Textures/Stars_in_the_sky.jpg',
                 name: "background"

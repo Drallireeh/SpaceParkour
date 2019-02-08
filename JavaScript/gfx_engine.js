@@ -4,20 +4,15 @@ x_wing_parkour.gfx_engine = {
         this.scene = new THREE.Scene();
 
         config = config || {};
-        const fov = config.camera_fov || 75;
+        this.far = config.gfx.far || 600;
 
         // --- Camera
-        this.camera = new THREE.OrthographicCamera(innerWidth / -2, innerWidth / 2, innerHeight / 2, innerHeight / -2, 1, 5000);
+        this.camera = new THREE.OrthographicCamera(innerWidth / -2, innerWidth / 2, innerHeight / 2, innerHeight / -2, 1, this.far);
         this.camera.position.set(0, 0, 30);
         this.scene.add(this.camera);
 
-        const light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(100, 0, 75);
+        const light = new THREE.AmbientLight(0xffffff);
         this.scene.add(light);
-
-        const light2 = new THREE.DirectionalLight(0xffffff);
-        light2.position.set(-100, 0, 75);
-        this.scene.add(light2);
 
         const high_performance = x_wing_parkour.configuration.high_performance || true;
 
@@ -35,6 +30,7 @@ x_wing_parkour.gfx_engine = {
             this.stats = new Stats();
             this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
             document.body.appendChild(this.stats.dom);
+
             console.log("gfx_engine debug mode activated.");
         }
 
@@ -50,7 +46,6 @@ x_wing_parkour.gfx_engine = {
             console.log("gfx engine is ready");
     },
     update: function () {
-
         this.renderer.render(this.scene, this.camera);
     }
 };

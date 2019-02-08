@@ -17,7 +17,7 @@ x_wing_parkour.loader = {
             loader.loadTextures();
         }
         else {
-            x_wing_parkour.game.init(x_wing_parkour.configuration.game);
+            x_wing_parkour.game.init(x_wing_parkour.configuration);
         }
     },
     getTexture: function (name) {

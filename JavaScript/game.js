@@ -1,12 +1,12 @@
 x_wing_parkour.game = {
     player: null,
-    camera_speed: 2,
+    camera_speed: 0,
     player_stats: {
         is_moving: false,
-        speed: 5,
+        speed: 0,
         score: 0,
         score_div: null,
-        lives: 3,
+        lives: 0,
         lives_div: null,
         player_x: 0,
         player_y: 0,
@@ -18,12 +18,15 @@ x_wing_parkour.game = {
         spike: new THREE.ConeGeometry(25, 50),
         asteroid: new THREE.CircleGeometry(50, 8)
     },
-    nb_obstacles: 30,
+    nb_obstacles: 0,
     list_obstacles: [],
     init: function (config) {
         config = config || {};
-        this.nb_obstacles = config.nb_obstacles || 25;
-        this.type_obstacles = config.type_obstacles || ["cube", "asteroid", "spike"];
+        this.nb_obstacles = config.game.nb_obstacles || 25;
+        this.type_obstacles = config.game.type_obstacles || ["cube", "asteroid", "spike"];
+        this.camera_speed = config.game.camera_speed || 2;
+        this.player_stats.speed = config.game.player.speed || 5;
+        this.player_stats.lives = config.game.player.lives || 3;
 
         const gfx = x_wing_parkour.gfx_engine;
 
@@ -52,6 +55,7 @@ x_wing_parkour.game = {
         this.player_stats.lives_div = document.getElementById('lives');
 
         this.player_stats.lives_div.innerText = 'Lives : ' + this.player_stats.lives;
+        this.player_stats.score_div.innerText = 'Player score : ' + this.player_stats.score;
 
         document.addEventListener('keydown', this.onKeyDown, false);
         document.addEventListener('keyup', this.onKeyUp, false);
@@ -71,8 +75,7 @@ x_wing_parkour.game = {
                 if (this.player.position.y + 50 < (innerHeight / 2) - 100) {
                     x_wing_parkour.game.player.translateY(this.player_stats.speed);
                 }
-            }
-            else {
+            } else {
                 if ((this.player.position.y - 50) > (-innerHeight / 2) + 100) {
                     x_wing_parkour.game.player.translateY(-this.player_stats.speed);
                 }
@@ -83,8 +86,9 @@ x_wing_parkour.game = {
                 for (let i = 0; i < this.nb_obstacles; i++) {
                     if ((this.player_stats.player_x - 40 >= this.list_obstacles[i].position.x - 25 && this.player_stats.player_x - 40 <= this.list_obstacles[i].position.x + 25 &&
                         this.player_stats.player_y - 25 >= this.list_obstacles[i].position.y - 25 && this.player_stats.player_y - 25 <= this.list_obstacles[i].position.y + 25) ||
-                        (this.player_stats.player_x + 75 >= this.list_obstacles[i].position.x - 25 && this.player_stats.player_x + 75 <= this.list_obstacles[i].position.x + 25 &&
+                        (this.player_stats.player_x + 65 >= this.list_obstacles[i].position.x - 25 && this.player_stats.player_x + 65 <= this.list_obstacles[i].position.x + 25 &&
                             this.player_stats.player_y + 25 >= this.list_obstacles[i].position.y - 25 && this.player_stats.player_y + 25 <= this.list_obstacles[i].position.y + 25)) {
+
                         if (this.list_obstacles[i].is_collide == false && this.player_stats.got_hit == false) {
                             this.list_obstacles[i].is_collide = true;
                             this.collide();
@@ -96,19 +100,19 @@ x_wing_parkour.game = {
                             this.player_stats.score += 10;
                         }
                         this.player_stats.score_div.innerText = 'Player score : ' + this.player_stats.score;
-                        this.list_obstacles[i].position.x += 2000;
+                        this.list_obstacles[i].position.x += 1500;
+                        this.list_obstacles[i].position.y = Math.floor(Math.random() * ((innerHeight / 2 - 150) - (-innerHeight / 2 + 150 + 1))) + (-innerHeight / 2 + 150);
                         this.list_obstacles[i].is_collide = false;
                     }
                 }
             }
-
         }
     },
     addBackground: function () {
         let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("background") });
         let geometry = new THREE.PlaneGeometry(innerWidth, innerHeight);
         let plate = new THREE.Mesh(geometry, material);
-        plate.translateZ(-400);
+        plate.translateZ(-300);
         x_wing_parkour.gfx_engine.camera.add(plate);
     },
     onKeyDown: function (event) {
