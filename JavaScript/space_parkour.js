@@ -1,4 +1,4 @@
-x_wing_parkour = {
+space_parkour = {
     configuration: {},
     pause: true,
     game_over: false,
@@ -35,23 +35,23 @@ x_wing_parkour = {
         }
     },
     setGameOver: function () {
-        if (x_wing_parkour.game.player_stats.lives <= 0) {
-            this.game_over_score.innerText = 'Player score : ' + x_wing_parkour.game.player_stats.score;
+        if (space_parkour.game.player_stats.lives <= 0) {
+            this.game_over_score.innerText = 'Player score : ' + space_parkour.game.player_stats.score;
             this.game_over = true;
             this.pause = true;
             this.blocker.style.display = 'block';
         }
     },
     update: function () {
-        requestAnimFrame(x_wing_parkour.update);
+        requestAnimFrame(space_parkour.update);
 
-        if (x_wing_parkour.configuration.debug_mode) x_wing_parkour.gfx_engine.stats.begin();
+        if (space_parkour.configuration.debug_mode) space_parkour.gfx_engine.stats.begin();
 
-        if (x_wing_parkour.pause == false) {
-            x_wing_parkour.gfx_engine.update();
-            x_wing_parkour.game.update();
+        if (space_parkour.pause == false) {
+            space_parkour.gfx_engine.update();
+            space_parkour.game.update();
         }
 
-        if (x_wing_parkour.configuration.debug_mode) x_wing_parkour.gfx_engine.stats.end();
+        if (space_parkour.configuration.debug_mode) space_parkour.gfx_engine.stats.end();
     }
 };

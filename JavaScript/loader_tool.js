@@ -1,4 +1,4 @@
-x_wing_parkour.loader_tool = {
+space_parkour.loader_tool = {
     textures: [],
     fbx: [],
     tex_increment: 0,
@@ -12,7 +12,7 @@ x_wing_parkour.loader_tool = {
         new THREE.ImageLoader().load(this.textures[this.tex_increment].path, this.onTextureLoaded);
     },
     onTextureLoaded: function (image) {
-        const loader = x_wing_parkour.loader_tool;
+        const loader = space_parkour.loader_tool;
         let texture = new THREE.CanvasTexture(image);
         loader.textures[loader.tex_increment].texture = texture;
         loader.tex_increment++;
@@ -29,7 +29,7 @@ x_wing_parkour.loader_tool = {
         loader.load(this.fbx[this.fbx_increment].path, this.onFbxLoaded);
     },
     onFbxLoaded: function (object) {
-        const loader = x_wing_parkour.loader_tool;
+        const loader = space_parkour.loader_tool;
         object.scale.set(0.01, 0.01, 0.01);
         object.translateX((-innerWidth / 2) + 50);
         object.translateY((-innerHeight / 2) + 150);
@@ -42,7 +42,7 @@ x_wing_parkour.loader_tool = {
             loader.loadFbx();
         }
         else {
-            x_wing_parkour.game.init(x_wing_parkour.configuration.game);
+            space_parkour.game.init(space_parkour.configuration.game);
         }
     },
     getFbx: function (name) {

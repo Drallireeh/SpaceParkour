@@ -1,12 +1,12 @@
-x_wing_parkour.gfx_engine = {
+space_parkour.gfx_engine = {
     init: function (config) {
         // --- Scene
         this.scene = new THREE.Scene();
 
         config = config || {};
         this.far = config.far || 600;
-        const high_performance = x_wing_parkour.configuration.high_performance || true;
-        const debug_mode = x_wing_parkour.configuration.debug_mode || false;
+        const high_performance = space_parkour.configuration.high_performance || true;
+        const debug_mode = space_parkour.configuration.debug_mode || false;
 
         // --- Camera
         this.camera = new THREE.OrthographicCamera(innerWidth / -2, innerWidth / 2, innerHeight / 2, innerHeight / -2, 1, this.far);

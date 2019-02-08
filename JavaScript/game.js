@@ -1,4 +1,4 @@
-x_wing_parkour.game = {
+space_parkour.game = {
     player: null,
     camera_speed: 0,
     player_stats: {
@@ -42,7 +42,7 @@ x_wing_parkour.game = {
     update: function () {
         if (this.player != null) {
             // Game Movement
-            const camera = x_wing_parkour.gfx_engine.camera;
+            const camera = space_parkour.gfx_engine.camera;
             camera.translateX(this.camera_speed);
             this.player.translateZ(-this.camera_speed);
 
@@ -52,11 +52,11 @@ x_wing_parkour.game = {
             // Move
             if (this.player_stats.is_moving) {
                 if (this.player.position.y + 50 < (innerHeight / 2) - 100) {
-                    x_wing_parkour.game.player.translateY(this.player_stats.speed);
+                    space_parkour.game.player.translateY(this.player_stats.speed);
                 }
             } else {
                 if ((this.player.position.y - 50) > (-innerHeight / 2) + 100) {
-                    x_wing_parkour.game.player.translateY(-this.player_stats.speed);
+                    space_parkour.game.player.translateY(-this.player_stats.speed);
                 }
             }
 
@@ -88,25 +88,25 @@ x_wing_parkour.game = {
         }
     },
     addBackground: function () {
-        let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader_tool.getTexture("background") });
+        let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: space_parkour.loader_tool.getTexture("background") });
         let geometry = new THREE.PlaneGeometry(innerWidth, innerHeight);
         let plate = new THREE.Mesh(geometry, material);
         plate.translateZ(-300);
-        x_wing_parkour.gfx_engine.camera.add(plate);
+        space_parkour.gfx_engine.camera.add(plate);
     },
     addPlayer: function () {
-        this.player = x_wing_parkour.loader_tool.getFbx("x_wing");
+        this.player = space_parkour.loader_tool.getFbx("x_wing");
 
         this.player_stats.player_x = this.player.position.x;
         this.player_stats.player_y = this.player.position.y;
 
-        x_wing_parkour.gfx_engine.scene.add(this.player);
+        space_parkour.gfx_engine.scene.add(this.player);
     },
     onKeyDown: function (event) {
         switch (event.keyCode) {
             case 38: // up
             case 90: // z
-                x_wing_parkour.game.player_stats.is_moving = true;
+                space_parkour.game.player_stats.is_moving = true;
                 break;
         }
     },
@@ -114,11 +114,11 @@ x_wing_parkour.game = {
         switch (event.keyCode) {
             case 38: // up
             case 90: // w
-                x_wing_parkour.game.player_stats.is_moving = false;
+                space_parkour.game.player_stats.is_moving = false;
                 break;
             case 27:
-                if (!x_wing_parkour.game_over) {
-                    x_wing_parkour.setPause();
+                if (!space_parkour.game_over) {
+                    space_parkour.setPause();
                 }
                 break;
         }
@@ -127,13 +127,13 @@ x_wing_parkour.game = {
         let mesh = null;
         switch (geometry) {
             case 'cube':
-                mesh = new THREE.Mesh(this.obstacles.cube, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader_tool.getTexture("box") }));
+                mesh = new THREE.Mesh(this.obstacles.cube, new THREE.MeshBasicMaterial({ color: 0xffffff, map: space_parkour.loader_tool.getTexture("box") }));
                 break;
             case 'spike':
-                mesh = new THREE.Mesh(this.obstacles.spike, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader_tool.getTexture("spike") }));
+                mesh = new THREE.Mesh(this.obstacles.spike, new THREE.MeshBasicMaterial({ color: 0xffffff, map: space_parkour.loader_tool.getTexture("spike") }));
                 break;
             case 'asteroid':
-                mesh = new THREE.Mesh(this.obstacles.asteroid, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader_tool.getTexture("asteroid") }));
+                mesh = new THREE.Mesh(this.obstacles.asteroid, new THREE.MeshBasicMaterial({ color: 0xffffff, map: space_parkour.loader_tool.getTexture("asteroid") }));
                 break;
             default:
                 console.log("Wrong type of obstacle");
@@ -143,7 +143,7 @@ x_wing_parkour.game = {
             mesh.position.set(Math.floor(Math.random() * (2500 - (-innerWidth / 2 + 300) + 1)) + (-innerWidth / 2 + 300),
                 Math.floor(Math.random() * ((innerHeight / 2 - 150) - (-innerHeight / 2 + 150 + 1))) + (-innerHeight / 2 + 150),
                 -60);
-            x_wing_parkour.gfx_engine.scene.add(mesh);
+            space_parkour.gfx_engine.scene.add(mesh);
             this.list_obstacles.push(mesh);
         }
     },
@@ -153,7 +153,7 @@ x_wing_parkour.game = {
 
         const game_field = new THREE.Mesh(new THREE.PlaneGeometry(innerWidth, innerHeight - 200), new THREE.MeshBasicMaterial({ color: 0x808080 }));
         game_field.position.set(0, 0, -200);
-        x_wing_parkour.gfx_engine.camera.add(game_field);
+        space_parkour.gfx_engine.camera.add(game_field);
 
         for (let i = 0; i < this.nb_obstacles; i++) {
             this.addObstacle(this.type_obstacles[Math.floor(Math.random() * 3)]);
@@ -164,13 +164,13 @@ x_wing_parkour.game = {
 
         if (this.player_stats.got_hit == false) {
             this.player.children[1].material.emissive.setHex(0xff0000);
-            x_wing_parkour.game.player_stats.got_hit = true;
+            space_parkour.game.player_stats.got_hit = true;
             setTimeout(function () {
-                x_wing_parkour.game.player.children[1].material.emissive.setHex(0);
-                x_wing_parkour.game.player_stats.got_hit = false;
+                space_parkour.game.player.children[1].material.emissive.setHex(0);
+                space_parkour.game.player_stats.got_hit = false;
             }, 1200);
         }
-        x_wing_parkour.setGameOver();
+        space_parkour.setGameOver();
 
         this.player_stats.lives_div.innerText = 'Lives : ' + this.player_stats.lives;
     }
