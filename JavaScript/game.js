@@ -79,7 +79,7 @@ x_wing_parkour.game = {
                             this.player_stats.score += 10;
                         }
                         this.player_stats.score_div.innerText = 'Player score : ' + this.player_stats.score;
-                        this.list_obstacles[i].position.x += 1500;
+                        this.list_obstacles[i].position.x += 2500;
                         this.list_obstacles[i].position.y = Math.floor(Math.random() * ((innerHeight / 2 - 150) - (-innerHeight / 2 + 150 + 1))) + (-innerHeight / 2 + 150);
                         this.list_obstacles[i].is_collide = false;
                     }
@@ -140,7 +140,7 @@ x_wing_parkour.game = {
         }
         if (mesh != null) {
             mesh.is_collide = false;
-            mesh.position.set(Math.floor(Math.random() * (1500 - (-innerWidth / 2 + 300) + 1)) + (-innerWidth / 2 + 300),
+            mesh.position.set(Math.floor(Math.random() * (2500 - (-innerWidth / 2 + 300) + 1)) + (-innerWidth / 2 + 300),
                 Math.floor(Math.random() * ((innerHeight / 2 - 150) - (-innerHeight / 2 + 150 + 1))) + (-innerHeight / 2 + 150),
                 -60);
             x_wing_parkour.gfx_engine.scene.add(mesh);

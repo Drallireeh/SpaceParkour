@@ -12,9 +12,10 @@
             padding: 0;
             overflow: hidden;
         }
-        #score{
+
+        #score {
             position: absolute;
-            right:600px;
+            right: 600px;
             top: 10px;
             width: 200px;
             height: 40px;
@@ -24,9 +25,10 @@
             text-align: center;
             padding-top: 30px;
         }
-        #lives{
+
+        #lives {
             position: absolute;
-            left:600px;
+            left: 600px;
             top: 10px;
             width: 200px;
             height: 40px;
@@ -36,12 +38,14 @@
             text-align: center;
             padding-top: 30px;
         }
+
         #blocker {
             position: absolute;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
         }
+
         #instructions {
             width: 100%;
             height: 100%;
@@ -61,6 +65,7 @@
             text-align: center;
             cursor: pointer;
         }
+
         #game_over {
             width: 100%;
             height: 100%;
@@ -88,7 +93,7 @@
     <script src="JavaScript/Libraries/stats.min.js"></script>
     <script src="JavaScript/Libraries/inflate.min.js"></script>
     <script src="JavaScript/Libraries/FBXLoader.js"></script>
-    
+
     <script src="JavaScript/x_wing_parkour.js"></script>
     <script src="JavaScript/gfx_engine.js"></script>
     <script src="JavaScript/game.js"></script>
@@ -98,20 +103,20 @@
     <div id="lives">Lives : 0</div>
 
     <div id="blocker">
-            <div id="instructions">
-                <span style="font-size:40px">Press ESC to play</span>
-                <br />
-                (Z/ArrowUp = move, ESC = pause)
-            </div>
-            <div id="game_over">
-                <span style="font-size:50px">GAME OVER, LOSER</span>
-                <br />
-                <br />
-                <span id="game_over_score">Player Score : </span>  
-                <br />
-                <br />
-                <span style="font-size:25px">Press F5 to retry</span>
-            </div>
+        <div id="instructions">
+            <span style="font-size:40px">Press ESC to play</span>
+            <br />
+            (Z/ArrowUp = move, ESC = pause)
+        </div>
+        <div id="game_over">
+            <span style="font-size:50px">GAME OVER, LOSER</span>
+            <br />
+            <br />
+            <span id="game_over_score">Player Score : </span>
+            <br />
+            <br />
+            <span style="font-size:25px">Press F5 to retry</span>
+        </div>
     </div>
 
     <script>
@@ -122,7 +127,7 @@
                 far: 600,
             },
             game: {
-                nb_obstacles: 25,
+                nb_obstacles: 30,
                 type_obstacles: ["cube", "asteroid", "spike"],
                 camera_speed: 2,
                 player: {
@@ -130,22 +135,28 @@
                     lives: 5,
                 }
             },
-            textures: [ {
-                path: 'Assets/Textures/Stars_in_the_sky.jpg',
-                name: "background"
-            }, 
-            {
-                path: 'Assets/Textures/wooden_box.jpg',
-                name: "box"
+            loader_tool: {
+                fbx_list: [{
+                    name: "x_wing",
+                    path: 'Assets/Obj/x_wing.fbx'
+                }],
+                tex_list: [{
+                    path: 'Assets/Textures/Stars_in_the_sky.jpg',
+                    name: "background"
+                },
+                {
+                    path: 'Assets/Textures/wooden_box.jpg',
+                    name: "box"
+                },
+                {
+                    path: 'Assets/Textures/metal_texture.jpg',
+                    name: "spike"
+                },
+                {
+                    path: 'Assets/Textures/Asteroid.jpg',
+                    name: "asteroid"
+                }]
             },
-            {
-                path: 'Assets/Textures/metal_texture.jpg',
-                name: "spike"
-            },
-            {
-                path: 'Assets/Textures/Asteroid.jpg',
-                name: "asteroid"
-            } ] 
         });
     </script>
 </body>

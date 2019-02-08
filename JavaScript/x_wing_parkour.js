@@ -13,7 +13,7 @@ x_wing_parkour = {
         this.blocker = document.getElementById('blocker');
         this.instructions = document.getElementById('instructions');
 
-        this.loader_tool.init(this.configuration.textures);
+        this.loader_tool.init(this.configuration.loader_tool);
         this.gfx_engine.init(this.configuration.gfx);
 
         this.update();

@@ -1,14 +1,11 @@
 x_wing_parkour.loader_tool = {
     textures: [],
+    fbx: [],
     tex_increment: 0,
     fbx_increment: 0,
-    fbx: [{
-        name: "x_wing",
-        path: 'Assets/Obj/x_wing.fbx',
-        object: null
-    }],
-    init: function (tex_list) {
-        this.textures = tex_list;
+    init: function (config) {
+        this.textures = config.tex_list;
+        this.fbx = config.fbx_list;
         this.loadTextures();
     },
     loadTextures: function () {
@@ -47,7 +44,6 @@ x_wing_parkour.loader_tool = {
         else {
             x_wing_parkour.game.init(x_wing_parkour.configuration.game);
         }
-
     },
     getFbx: function (name) {
         for (let i = 0; i < this.fbx.length; i++) {
