@@ -1,11 +1,13 @@
 x_wing_parkour.game = {
     player: null,
+    camera_speed: 2,
     player_stats: {
         is_moving: false,
-        speed: 2,
+        speed: 5,
         score: 0,
         score_div: null,
         lives: 3,
+        lives_div: null,
         player_x: 0,
         player_y: 0,
         got_hit: false
@@ -47,6 +49,10 @@ x_wing_parkour.game = {
         gfx.camera.add(game_field);
 
         this.player_stats.score_div = document.getElementById('score');
+        this.player_stats.lives_div = document.getElementById('lives');
+
+        this.player_stats.lives_div.innerText = 'Lives : ' + this.player_stats.lives;
+
         document.addEventListener('keydown', this.onKeyDown, false);
         document.addEventListener('keyup', this.onKeyUp, false);
     },
@@ -54,8 +60,8 @@ x_wing_parkour.game = {
         if (this.player != null) {
             // Game Movement
             const camera = x_wing_parkour.gfx_engine.camera;
-            camera.translateX(this.player_stats.speed);
-            this.player.translateZ(-this.player_stats.speed);
+            camera.translateX(this.camera_speed);
+            this.player.translateZ(-this.camera_speed);
 
             this.player_stats.player_x = this.player.position.x;
             this.player_stats.player_y = this.player.position.y;
@@ -63,12 +69,12 @@ x_wing_parkour.game = {
             // Move
             if (this.player_stats.is_moving) {
                 if (this.player.position.y + 50 < (innerHeight / 2) - 100) {
-                    x_wing_parkour.game.player.translateY(2);
+                    x_wing_parkour.game.player.translateY(this.player_stats.speed);
                 }
             }
             else {
                 if ((this.player.position.y - 50) > (-innerHeight / 2) + 100) {
-                    x_wing_parkour.game.player.translateY(-5);
+                    x_wing_parkour.game.player.translateY(-this.player_stats.speed);
                 }
             }
 
@@ -81,30 +87,21 @@ x_wing_parkour.game = {
                             this.player_stats.player_y + 25 >= this.list_obstacles[i].position.y - 25 && this.player_stats.player_y + 25 <= this.list_obstacles[i].position.y + 25)) {
                         if (this.list_obstacles[i].is_collide == false && this.player_stats.got_hit == false) {
                             this.list_obstacles[i].is_collide = true;
-                            this.player_stats.lives -= 1;
-
-                            if (this.player_stats.got_hit == false) {
-                                this.player.children[1].material.emissive.setHex(0xff0000);
-                                x_wing_parkour.game.player_stats.got_hit = true;
-                                setTimeout(function () {
-                                    x_wing_parkour.game.player.children[1].material.emissive.setHex(0);
-                                    x_wing_parkour.game.player_stats.got_hit = false;
-                                }, 1200);
-                            }
-
-                            x_wing_parkour.setGameOver();
+                            this.collide();
                         }
                     }
 
                     if (this.list_obstacles[i].position.x + 25 < this.player_stats.player_x - 100) {
-                        if (this.list_obstacles[i].is_collide == false) this.player_stats.score += 10;
+                        if (this.list_obstacles[i].is_collide == false) {
+                            this.player_stats.score += 10;
+                        }
+                        this.player_stats.score_div.innerText = 'Player score : ' + this.player_stats.score;
                         this.list_obstacles[i].position.x += 2000;
                         this.list_obstacles[i].is_collide = false;
                     }
                 }
             }
 
-            this.player_stats.score_div.innerText = 'Player score : ' + this.player_stats.score;
         }
     },
     addBackground: function () {
@@ -165,5 +162,20 @@ x_wing_parkour.game = {
         for (let i = 0; i < this.nb_obstacles; i++) {
             this.addObstacle(this.type_obstacles[Math.floor(Math.random() * 3)]);
         }
+    },
+    collide: function () {
+        this.player_stats.lives -= 1;
+
+        if (this.player_stats.got_hit == false) {
+            this.player.children[1].material.emissive.setHex(0xff0000);
+            x_wing_parkour.game.player_stats.got_hit = true;
+            setTimeout(function () {
+                x_wing_parkour.game.player.children[1].material.emissive.setHex(0);
+                x_wing_parkour.game.player_stats.got_hit = false;
+            }, 1200);
+        }
+        x_wing_parkour.setGameOver();
+
+        this.player_stats.lives_div.innerText = 'Lives : ' + this.player_stats.lives;
     }
 };

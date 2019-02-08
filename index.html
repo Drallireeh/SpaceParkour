@@ -14,7 +14,7 @@
         }
         #score{
             position: absolute;
-            right:100px;
+            right:600px;
             top: 10px;
             width: 200px;
             height: 40px;
@@ -24,9 +24,9 @@
             text-align: center;
             padding-top: 30px;
         }
-        #lifes{
+        #lives{
             position: absolute;
-            left:100px;
+            left:600px;
             top: 10px;
             width: 200px;
             height: 40px;
@@ -104,7 +104,7 @@
                 (Z/ArrowUp = move, ESC = pause)
             </div>
             <div id="game_over">
-                <span style="font-size:50px">GAME OVER.</span>
+                <span style="font-size:50px">GAME OVER, LOSER</span>
                 <br />
                 <br />
                 <span id="game_over_score">Player Score : </span>  
@@ -116,7 +116,7 @@
 
     <script>
         x_wing_parkour.start({
-            debug_mode: true,
+            debug_mode: false,
             high_performance: true,
             textures: [ {
                 path: 'Assets/Textures/Stars_in_the_sky.jpg',
