@@ -1,8 +1,4 @@
 x_wing_parkour.game = {
-    field: {
-        width: 500,
-        height: 2500
-    },
     player: null,
     player_stats: {
         is_moving: false,
@@ -28,28 +24,22 @@ x_wing_parkour.game = {
 
         const gfx = x_wing_parkour.gfx_engine;
 
-        new THREE.MTLLoader()
-            .setPath('Assets/Obj/')
-            .load('xwing.mtl', function (materials) {
-                materials.preload();
-                new THREE.OBJLoader()
-                    .setMaterials(materials)
-                    .setPath('Assets/Obj/')
-                    .load('xwing.obj', function (object) {
-                        object.scale.set(0.01, 0.01, 0.01);
-                        object.translateX((-innerWidth / 2) + 50);
-                        object.translateY((-innerHeight / 2) + 150);
-                        object.translateZ(-30);
-                        object.rotateY(THREE.Math.degToRad(-90));
+        const loader = new THREE.FBXLoader();
 
-                        x_wing_parkour.game.player = object;
-                        x_wing_parkour.game.player_stats.player_x = object.position.x;
-                        x_wing_parkour.game.player_stats.player_y = object.position.y;
-                        x_wing_parkour.gfx_engine.scene.add(object);
-                    });
-            });
+        loader.load('Assets/Obj/xwing_fbx.fbx', function (object) {
+            object.scale.set(0.01, 0.01, 0.01);
+            object.translateX((-innerWidth / 2) + 50);
+            object.translateY((-innerHeight / 2) + 150);
+            object.translateZ(-30);
+            object.rotateY(THREE.Math.degToRad(-90));
+    
+            x_wing_parkour.game.player = object;
+            x_wing_parkour.game.player_stats.player_x = object.position.x;
+            x_wing_parkour.game.player_stats.player_y = object.position.y;
+            x_wing_parkour.gfx_engine.scene.add(object);
 
-        this.addBackground();
+        })
+
         this.addScenery();
 
         const game_field = new THREE.Mesh(new THREE.PlaneGeometry(innerWidth, innerHeight - 200), new THREE.MeshBasicMaterial({ color: 0x808080 }));
@@ -90,6 +80,7 @@ x_wing_parkour.game = {
                         (this.player_stats.player_x + 75 >= this.list_obstacles[i].position.x - 25 && this.player_stats.player_x + 75 <= this.list_obstacles[i].position.x + 25 &&
                             this.player_stats.player_y + 25 >= this.list_obstacles[i].position.y - 25 && this.player_stats.player_y + 25 <= this.list_obstacles[i].position.y + 25)) {
                         // Stop the game
+                        
                     }
 
                     if (this.list_obstacles[i].position.x + 25 < this.player_stats.player_x - 50) {
@@ -123,6 +114,9 @@ x_wing_parkour.game = {
             case 90: // w
                 x_wing_parkour.game.player_stats.is_moving = false;
                 break;
+            case 27:
+                x_wing_parkour.setPause();
+                break;
         }
     },
     addObstacle: function (geometry) {
@@ -149,6 +143,8 @@ x_wing_parkour.game = {
         }
     },
     addScenery: function() {
+        this.addBackground();
+
         for (let i = 0; i < this.nb_obstacles; i++) {
             this.addObstacle(this.type_obstacles[Math.floor(Math.random() * 3)]);
         }
