@@ -9,6 +9,7 @@ x_wing_parkour = {
         }
 
         this.configuration = config;
+        this.game_over_score = document.getElementById('game_over_score');
         this.blocker = document.getElementById('blocker');
         this.instructions = document.getElementById('instructions');
 
@@ -36,6 +37,7 @@ x_wing_parkour = {
     setGameOver: function () {
         if (x_wing_parkour.game.player_stats.lives <= 0)
         {
+            this.game_over_score.innerText = 'Player score : ' + x_wing_parkour.game.player_stats.score;
             this.game_over = true;
             this.pause = true;
             this.blocker.style.display = 'block';

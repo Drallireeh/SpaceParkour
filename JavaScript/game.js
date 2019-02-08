@@ -83,18 +83,20 @@ x_wing_parkour.game = {
                         if (this.list_obstacles[i].is_collide == false) {
                             this.list_obstacles[i].is_collide = true;
                             this.player_stats.lives -= 1;
-                            x_wing_parkour.setGameOver();
+                            
                             if (this.player_stats.color == 0) {
                                 this.player.children[1].material.emissive.setHex(0xff0000);
                                 this.player_stats.color = this.player.children[1].material.emissive.getHex();
                             }
-                                this.player.children[1].material.emissive.setHex(0);
-                                this.player_stats.color = this.player.children[1].material.emissive.getHex();
+                            this.player.children[1].material.emissive.setHex(0);
+                            this.player_stats.color = this.player.children[1].material.emissive.getHex();
+
+                            x_wing_parkour.setGameOver();
                         }
                     }
 
                     if (this.list_obstacles[i].position.x + 25 < this.player_stats.player_x - 100) {
-                        this.player_stats.score += 10;
+                        if (this.list_obstacles[i].is_collide == false) this.player_stats.score += 10;
                         this.list_obstacles[i].position.x += 2000;
                         this.list_obstacles[i].is_collide = false;
                     }

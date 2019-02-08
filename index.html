@@ -82,7 +82,7 @@
     <script src="JavaScript/game.js"></script>
     <script src="JavaScript/loader.js"></script>
 
-    <div id="score"></div>
+    <div id="score">Player score : 0</div>
 
     <div id="blocker">
             <div id="instructions">
@@ -94,7 +94,7 @@
                 <span style="font-size:50px">GAME OVER.</span>
                 <br />
                 <br />
-                Player Score : 
+                <span id="game_over_score">Player Score : </span>  
                 <br />
                 <br />
                 <span style="font-size:25px">Press F5 to retry</span>
@@ -102,10 +102,6 @@
     </div>
 
     <script>
-        
-        const score_div = document.getElementById("score");
-        score_div.innerText = "Player score : " + x_wing_parkour.game.player_stats.score;
-
         x_wing_parkour.start({
             debug_mode: true,
             high_performance: true,
