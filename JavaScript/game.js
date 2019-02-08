@@ -7,7 +7,8 @@ x_wing_parkour.game = {
         score_div: null,
         lives: 3,
         player_x: 0,
-        player_y: 0
+        player_y: 0,
+        got_hit: false
     },
     type_obstacles: [],
     obstacles: {
@@ -32,7 +33,7 @@ x_wing_parkour.game = {
             object.translateY((-innerHeight / 2) + 150);
             object.translateZ(-30);
             object.rotateY(THREE.Math.degToRad(-90));
-    
+
             x_wing_parkour.game.player = object;
             x_wing_parkour.game.player_stats.color = object.children[1].material.emissive.getHex();
             x_wing_parkour.game.player_stats.player_x = object.position.x;
@@ -56,7 +57,7 @@ x_wing_parkour.game = {
             const camera = x_wing_parkour.gfx_engine.camera;
             camera.translateX(this.player_stats.speed);
             this.player.translateZ(-this.player_stats.speed);
-            
+
             this.player_stats.player_x = this.player.position.x;
             this.player_stats.player_y = this.player.position.y;
 
@@ -79,17 +80,18 @@ x_wing_parkour.game = {
                         this.player_stats.player_y - 25 >= this.list_obstacles[i].position.y - 25 && this.player_stats.player_y - 25 <= this.list_obstacles[i].position.y + 25) ||
                         (this.player_stats.player_x + 75 >= this.list_obstacles[i].position.x - 25 && this.player_stats.player_x + 75 <= this.list_obstacles[i].position.x + 25 &&
                             this.player_stats.player_y + 25 >= this.list_obstacles[i].position.y - 25 && this.player_stats.player_y + 25 <= this.list_obstacles[i].position.y + 25)) {
-                        // Stop the game
                         if (this.list_obstacles[i].is_collide == false) {
                             this.list_obstacles[i].is_collide = true;
                             this.player_stats.lives -= 1;
-                            
+
                             if (this.player_stats.color == 0) {
                                 this.player.children[1].material.emissive.setHex(0xff0000);
                                 this.player_stats.color = this.player.children[1].material.emissive.getHex();
+                                setTimeout(function() {
+                                    x_wing_parkour.game.player.children[1].material.emissive.setHex(0);
+                                    x_wing_parkour.game.player_stats.color = x_wing_parkour.game.player.children[1].material.emissive.getHex();
+                                }, 1000);
                             }
-                            this.player.children[1].material.emissive.setHex(0);
-                            this.player_stats.color = this.player.children[1].material.emissive.getHex();
 
                             x_wing_parkour.setGameOver();
                         }
@@ -128,7 +130,9 @@ x_wing_parkour.game = {
                 x_wing_parkour.game.player_stats.is_moving = false;
                 break;
             case 27:
-                if (!x_wing_parkour.game_over) x_wing_parkour.setPause();
+                if (!x_wing_parkour.game_over) {
+                    x_wing_parkour.setPause();
+                }
                 break;
         }
     },
@@ -149,14 +153,14 @@ x_wing_parkour.game = {
         }
         if (mesh != null) {
             mesh.is_collide = false;
-            mesh.position.set(Math.floor(Math.random() * (1500 - (-innerWidth/2 + 300) + 1) ) + (-innerWidth/2 + 300),
+            mesh.position.set(Math.floor(Math.random() * (1500 - (-innerWidth / 2 + 300) + 1)) + (-innerWidth / 2 + 300),
                 Math.floor(Math.random() * ((innerHeight / 2 - 150) - (-innerHeight / 2 + 150 + 1))) + (-innerHeight / 2 + 150),
                 -60);
             x_wing_parkour.gfx_engine.scene.add(mesh);
             this.list_obstacles.push(mesh);
         }
     },
-    addScenery: function() {
+    addScenery: function () {
         this.addBackground();
 
         for (let i = 0; i < this.nb_obstacles; i++) {
