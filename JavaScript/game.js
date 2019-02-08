@@ -28,28 +28,7 @@ x_wing_parkour.game = {
         this.player_stats.speed = config.player.speed || 5;
         this.player_stats.lives = config.player.lives || 3;
 
-        const gfx = x_wing_parkour.gfx_engine;
-
-        const loader = new THREE.FBXLoader();
-
-        loader.load('Assets/Obj/x_wing.fbx', function (object) {
-            object.scale.set(0.01, 0.01, 0.01);
-            object.translateX((-innerWidth / 2) + 50);
-            object.translateY((-innerHeight / 2) + 150);
-            object.translateZ(-30);
-            object.rotateY(THREE.Math.degToRad(-90));
-
-            x_wing_parkour.game.player = object;
-            x_wing_parkour.game.player_stats.player_x = object.position.x;
-            x_wing_parkour.game.player_stats.player_y = object.position.y;
-            x_wing_parkour.gfx_engine.scene.add(object);
-        })
-
-        this.addScenery();
-
-        const game_field = new THREE.Mesh(new THREE.PlaneGeometry(innerWidth, innerHeight - 200), new THREE.MeshBasicMaterial({ color: 0x808080 }));
-        game_field.position.set(0, 0, -200);
-        gfx.camera.add(game_field);
+        this.BuildScene();
 
         this.player_stats.score_div = document.getElementById('score');
         this.player_stats.lives_div = document.getElementById('lives');
@@ -109,11 +88,19 @@ x_wing_parkour.game = {
         }
     },
     addBackground: function () {
-        let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("background") });
+        let material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader_tool.getTexture("background") });
         let geometry = new THREE.PlaneGeometry(innerWidth, innerHeight);
         let plate = new THREE.Mesh(geometry, material);
         plate.translateZ(-300);
         x_wing_parkour.gfx_engine.camera.add(plate);
+    },
+    addPlayer: function () {
+        this.player = x_wing_parkour.loader_tool.getFbx("x_wing");
+
+        this.player_stats.player_x = this.player.position.x;
+        this.player_stats.player_y = this.player.position.y;
+
+        x_wing_parkour.gfx_engine.scene.add(this.player);
     },
     onKeyDown: function (event) {
         switch (event.keyCode) {
@@ -140,13 +127,13 @@ x_wing_parkour.game = {
         let mesh = null;
         switch (geometry) {
             case 'cube':
-                mesh = new THREE.Mesh(this.obstacles.cube, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("box") }));
+                mesh = new THREE.Mesh(this.obstacles.cube, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader_tool.getTexture("box") }));
                 break;
             case 'spike':
-                mesh = new THREE.Mesh(this.obstacles.spike, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("spike") }));
+                mesh = new THREE.Mesh(this.obstacles.spike, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader_tool.getTexture("spike") }));
                 break;
             case 'asteroid':
-                mesh = new THREE.Mesh(this.obstacles.asteroid, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader.getTexture("asteroid") }));
+                mesh = new THREE.Mesh(this.obstacles.asteroid, new THREE.MeshBasicMaterial({ color: 0xffffff, map: x_wing_parkour.loader_tool.getTexture("asteroid") }));
                 break;
             default:
                 console.log("Wrong type of obstacle");
@@ -160,8 +147,13 @@ x_wing_parkour.game = {
             this.list_obstacles.push(mesh);
         }
     },
-    addScenery: function () {
+    BuildScene: function () {
         this.addBackground();
+        this.addPlayer();
+
+        const game_field = new THREE.Mesh(new THREE.PlaneGeometry(innerWidth, innerHeight - 200), new THREE.MeshBasicMaterial({ color: 0x808080 }));
+        game_field.position.set(0, 0, -200);
+        x_wing_parkour.gfx_engine.camera.add(game_field);
 
         for (let i = 0; i < this.nb_obstacles; i++) {
             this.addObstacle(this.type_obstacles[Math.floor(Math.random() * 3)]);
