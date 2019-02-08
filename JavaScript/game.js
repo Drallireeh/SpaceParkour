@@ -32,7 +32,7 @@ x_wing_parkour.game = {
 
         const loader = new THREE.FBXLoader();
 
-        loader.load('Assets/Obj/xwing_fbx2.fbx', function (object) {
+        loader.load('Assets/Obj/x_wing.fbx', function (object) {
             object.scale.set(0.01, 0.01, 0.01);
             object.translateX((-innerWidth / 2) + 50);
             object.translateY((-innerHeight / 2) + 150);
