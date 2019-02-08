@@ -12,6 +12,7 @@ space_parkour = {
         this.game_over_score = document.getElementById('game_over_score');
         this.blocker = document.getElementById('blocker');
         this.instructions = document.getElementById('instructions');
+        this.pause_menu = document.getElementById('pause_menu');
 
         this.loader_tool.init(this.configuration.loader_tool);
         this.gfx_engine.init(this.configuration.gfx);
@@ -30,6 +31,7 @@ space_parkour = {
         else {
             this.pause = true;
 
+            this.pause_menu.innerText = "Pause.\n Press ESC to restart"
             this.blocker.style.display = 'block';
             this.instructions.style.display = '';
         }
