@@ -4,7 +4,9 @@ x_wing_parkour.gfx_engine = {
         this.scene = new THREE.Scene();
 
         config = config || {};
-        this.far = config.gfx.far || 600;
+        this.far = config.far || 600;
+        const high_performance = x_wing_parkour.configuration.high_performance || true;
+        const debug_mode = x_wing_parkour.configuration.debug_mode || false;
 
         // --- Camera
         this.camera = new THREE.OrthographicCamera(innerWidth / -2, innerWidth / 2, innerHeight / 2, innerHeight / -2, 1, this.far);
@@ -14,19 +16,17 @@ x_wing_parkour.gfx_engine = {
         const light = new THREE.AmbientLight(0xffffff);
         this.scene.add(light);
 
-        const high_performance = x_wing_parkour.configuration.high_performance || true;
-
         // --- Renderer
         this.renderer = new THREE.WebGLRenderer({ antialias: high_performance });
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(innerWidth, innerHeight);
-        if (x_wing_parkour.configuration.high_performance) {
+        if (high_performance) {
             this.renderer.shadowMap.enabled = true;
             this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         }
         document.body.appendChild(this.renderer.domElement);
 
-        if (x_wing_parkour.configuration.debug_mode && Stats) {
+        if (debug_mode && Stats) {
             this.stats = new Stats();
             this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
             document.body.appendChild(this.stats.dom);

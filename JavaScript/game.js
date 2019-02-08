@@ -22,11 +22,11 @@ x_wing_parkour.game = {
     list_obstacles: [],
     init: function (config) {
         config = config || {};
-        this.nb_obstacles = config.game.nb_obstacles || 25;
-        this.type_obstacles = config.game.type_obstacles || ["cube", "asteroid", "spike"];
-        this.camera_speed = config.game.camera_speed || 2;
-        this.player_stats.speed = config.game.player.speed || 5;
-        this.player_stats.lives = config.game.player.lives || 3;
+        this.nb_obstacles = config.nb_obstacles || 25;
+        this.type_obstacles = config.type_obstacles || ["cube", "asteroid", "spike"];
+        this.camera_speed = config.camera_speed || 2;
+        this.player_stats.speed = config.player.speed || 5;
+        this.player_stats.lives = config.player.lives || 3;
 
         const gfx = x_wing_parkour.gfx_engine;
 

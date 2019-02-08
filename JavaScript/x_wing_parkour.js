@@ -14,7 +14,7 @@ x_wing_parkour = {
         this.instructions = document.getElementById('instructions');
 
         this.loader.init(this.configuration.textures);
-        this.gfx_engine.init(this.configuration.gfx_engine);
+        this.gfx_engine.init(this.configuration.gfx);
 
         this.update();
         
